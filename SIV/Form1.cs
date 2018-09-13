@@ -8,9 +8,6 @@ namespace SIV
 {
 	public partial class DisplayForm : Form
 	{
-
-		private const string FILTERS = " *.jpg;*.bmp;*.png;*.gif";
-
 		private string nextFilename;
 		private string prevFilename;
 		private string dirName;
@@ -40,8 +37,8 @@ namespace SIV
 
 		private void loadImageFromFileName(string fileName)
 		{
-			Image imageChoosen = Image.FromFile(openFileDialog1.FileName);
-			this.dirName = Path.GetDirectoryName(openFileDialog1.FileName);
+			Image imageChoosen = Image.FromFile(fileName);
+			this.dirName = Path.GetDirectoryName(fileName);
 
 			if (imageChoosen.Width > pictureBox1.ClientSize.Width || imageChoosen.Height > pictureBox1.ClientSize.Height)
 				pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -55,26 +52,26 @@ namespace SIV
 		{
 			DirectoryInfo dirInfo = new DirectoryInfo(this.dirName);
 			int i = 0;
-			FileInfo[] cp = dirInfo.GetFiles(FILTERS); //todo : check pourquoi c'est zéro
+			FileInfo[] cp = ImgRetriever.imagesFileInfoFromfilesFileInfo(dirInfo.GetFiles());
 			foreach (FileInfo fi in cp)
 			{
-				if (fi.Name == fileName)
+				if (fi.FullName == fileName)
 				{
 
 					if (i == 0)
 					{
-						this.nextFilename = cp[i + 1].Name;
-						this.prevFilename = cp[cp.Length - 1].Name;
+						this.nextFilename = cp[i + 1].FullName;
+						this.prevFilename = cp[cp.Length - 1].FullName;
 					}
-					else if (i == cp.Length)
+					else if (i == cp.Length - 1)
 					{
-						this.nextFilename = cp[0].Name;
-						this.prevFilename = cp[cp.Length - 2].Name;
+						this.nextFilename = cp[0].FullName;
+						this.prevFilename = cp[cp.Length - 2].FullName;
 					}
 					else
 					{
-						this.nextFilename = cp[i + 1].Name;
-						this.prevFilename = cp[i - 1].Name;
+						this.nextFilename = cp[i + 1].FullName;
+						this.prevFilename = cp[i - 1].FullName;
 					}
 				}
 				i++;
@@ -84,10 +81,14 @@ namespace SIV
 		private void nextButton_Click(object sender, EventArgs e)
 		{
 			if (this.nextFilename != null)
-			{
 				this.loadImageFromFileName(this.nextFilename);
-			}
 
+		}
+
+		private void previousButton_Click(object sender, EventArgs e)
+		{
+			if (this.prevFilename != null)
+				this.loadImageFromFileName(this.prevFilename);
 		}
 	}
 			
