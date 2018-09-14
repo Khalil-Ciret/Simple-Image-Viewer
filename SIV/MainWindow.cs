@@ -11,7 +11,6 @@ namespace SIV
 		private string nextFilename;
 		private string prevFilename;
 		private string dirName;
-		private string v;
 
 		public DisplayForm()
 		{
