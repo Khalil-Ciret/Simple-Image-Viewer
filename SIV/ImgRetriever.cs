@@ -10,21 +10,28 @@ namespace SIV
 	static class ImgRetriever
 	{
 
-		private static readonly string[] FILTERS = {".jpg" ,".bmp",".png",".gif"};
+		public static readonly string[] FILTERS = {".jpg" ,".bmp",".png",".gif"};
 
 		public static FileInfo[] imagesFileInfoFromfilesFileInfo(FileInfo[] fileInfosToCheck)
 		{
 			List<FileInfo> listToReturn = new List<FileInfo>();
 			foreach (FileInfo fileInfoToCheck in fileInfosToCheck)
 			{
-				foreach (string extension in FILTERS)
-				{
-					if (fileInfoToCheck.Extension == extension)
+					if (ImgRetriever.isFileAnImage(fileInfoToCheck))
 						listToReturn.Add(fileInfoToCheck);
-				}
 			}
 			return listToReturn.ToArray();
 		}
+
+	public static bool isFileAnImage(FileInfo fileToCheck)
+	{
+		foreach (string extension in ImgRetriever.FILTERS)
+		{
+			if (fileToCheck.Extension == extension)
+				return true;
+		}
+		return false;
+	}
 
 	}
 

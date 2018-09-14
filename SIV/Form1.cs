@@ -11,10 +11,17 @@ namespace SIV
 		private string nextFilename;
 		private string prevFilename;
 		private string dirName;
+		private string v;
 
 		public DisplayForm()
 		{
 			InitializeComponent();
+		}
+
+		public DisplayForm(string fileNameToOpen)
+		{
+			InitializeComponent();
+			this.loadImageFromFileName(fileNameToOpen);
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
